@@ -162,7 +162,7 @@ export default {
         firstName: "John",
         lastName: "Smith",
         email: this.email,
-        discipline: "computer",
+        discipline: "Computer",
         startYear: 2019
       };
 
