@@ -158,23 +158,34 @@ export default {
         return;
       }
 
-      const payload = {
-        email: this.email,
-        password: this.password
+      const fakeResponse = {
+        firstName: "John",
+        lastName: "Smith",
+        userEmail: this.email,
+        userDiscipline: "computer",
+        userStartYear: "2019"
       };
-      try {
-        let response = await this.$axios.post("/authenticate", payload, {
-          withCredentials: true
-        });
-        if (response.data.isSuccess) {
-          this.$store.dispatch("startApp", response.data.set);
-        } else {
-          this.errorMessage = response.data.errors[0];
-        }
-      } catch (e) {
-        console.log(e);
-        this.errorMessage = "Unable to login, please try later";
-      }
+
+      this.$store.dispatch("startApp", fakeResponse);
+
+      // const payload = {
+      //   email: this.email,
+      //   password: this.password
+      // };
+      
+      // try {
+      //   let response = await this.$axios.post("/authenticate", payload, {
+      //     withCredentials: true
+      //   });
+      //   if (response.data.isSuccess) {
+      //     this.$store.dispatch("startApp", response.data.set);
+      //   } else {
+      //     this.errorMessage = response.data.errors[0];
+      //   }
+      // } catch (e) {
+      //   console.log(e);
+      //   this.errorMessage = "Unable to login, please try later";
+      // }
       this.disableLoginBtn = false;
     },
     forgotPassword: async function() {
