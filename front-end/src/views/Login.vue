@@ -118,6 +118,11 @@
           >Sign Up</v-btn>
           <v-spacer />
         </v-row>
+        <v-row class="mt-6">
+          <v-spacer />
+          <v-alert dismissible dense type="warning">This is a demo. Use any email to log in and your changes won't be saved. <a class="white--text" style="text-decoration: underline;" href="https://github.com/JackGWW/qplan"> More details here</a>.</v-alert>
+          <v-spacer />
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -172,7 +177,7 @@ export default {
       //   email: this.email,
       //   password: this.password
       // };
-      
+
       // try {
       //   let response = await this.$axios.post("/authenticate", payload, {
       //     withCredentials: true
