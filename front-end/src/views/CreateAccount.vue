@@ -114,11 +114,7 @@
           </v-card-actions>
         </v-card>
         <v-expand-transition>
-          <v-alert
-            color="error"
-            :value="errorMessage !== ''"
-            class="mt-4 px-3 py-1"
-          >
+          <v-alert color="error" :value="errorMessage !== ''" class="mt-4 px-3 py-1">
             <v-row>
               <span class="mt-1 ml-2">
                 <v-icon class="mr-2 mb-1">mdi-alert-circle</v-icon>
@@ -206,32 +202,43 @@ export default {
   methods: {
     addNewUser: async function() {
       if (this.validInput) {
-        let payload = {
-          firstName: this.fName,
-          lastName: this.lName,
+        const fakeResponse = {
+          firstName: "John",
+          lastName: "Smith",
           email: this.email,
-          isAdmin: false,
-          discipline: this.userDiscipline,
-          startYear: this.userStartYear,
-          password: this.password1
+          discipline: "Computer",
+          startYear: 2019
         };
-        const postURL = this.baseUrl + "/signUp";
-        try {
-          let response = await this.$axios.post(postURL, payload, {
-            withCredentials: true
-          });
-          if (response.data.isSuccess) {
-            console.log(response);
-            this.$store.dispatch("startApp", response.data.set);
-            this.accountCreated = true;
-          } else {
-            this.errorMessage = response.data.errors[0];
-          }
-        } catch (e) {
-          console.log(e);
-          this.errorMessage =
-            "Unable to create account, please try again later";
-        }
+
+        this.$store.dispatch("startApp", fakeResponse);
+        this.accountCreated = true
+        
+        // let payload = {
+        //   firstName: this.fName,
+        //   lastName: this.lName,
+        //   email: this.email,
+        //   isAdmin: false,
+        //   discipline: this.userDiscipline,
+        //   startYear: this.userStartYear,
+        //   password: this.password1
+        // };
+        // const postURL = this.baseUrl + "/signUp";
+        // try {
+        //   let response = await this.$axios.post(postURL, payload, {
+        //     withCredentials: true
+        //   });
+        //   if (response.data.isSuccess) {
+        //     console.log(response);
+        //     this.$store.dispatch("startApp", response.data.set);
+        //     this.accountCreated = true;
+        //   } else {
+        //     this.errorMessage = response.data.errors[0];
+        //   }
+        // } catch (e) {
+        //   console.log(e);
+        //   this.errorMessage =
+        //     "Unable to create account, please try again later";
+        // }
       } else {
         this.invalidInputs = true;
       }
