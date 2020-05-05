@@ -5,5 +5,5 @@ module.exports = {
   configureWebpack: {
     devtool: 'source-map'
   },
-  publicPath: '/QPlan/'
+  publicPath: '/qplan/'
 };
