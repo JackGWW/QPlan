@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["progress"],{e65a:function(e,s,t){"use strict";t.r(s);var r=function(){var e=this,s=e.$createElement;e._self._c;return e._m(0)},n=[function(){var e=this,s=e.$createElement,t=e._self._c||s;return t("div",{staticClass:"progress"},[t("h1",[e._v("This is the detailed progress page")])])}],a=t("2877"),i={},l=Object(a["a"])(i,r,n,!1,null,null,null);s["default"]=l.exports}}]);
+//# sourceMappingURL=progress.9b8d921d.js.map

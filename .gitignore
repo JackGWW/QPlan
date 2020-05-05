@@ -1,0 +1,23 @@
+# files with sensitive information
+*.cfg
+
+# webstorm config
+.idea
+
+# node_modules, which is recreated by `npm install`
+node_modules
+
+# logs files
+*.log
+
+# temporary files to hold post data
+*.post
+
+# Uploaded files
+uploads/*
+
+front-end/package-lock.json
+
+# VC Code config
+*.code-workspace
+front-end/.vscode/settings.json
