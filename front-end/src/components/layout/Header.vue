@@ -222,7 +222,6 @@ export default {
           query: { query: this.latestQuery }
         });
       } else {
-        console.log("SIMP");
         this.$router.push("/search");
       }
     },
