@@ -104,7 +104,8 @@ router.beforeEach((to, from, next) => {
         //TODO: Add admin handling
         next({ name: 'home' })
       } else {
-        if(from.name === "createAccount"){
+        console.log(from.name)
+        if(from.name === "createAccount" || from.name ==="login"){
           store.commit('updateFirstLogin', true)
         }
         next()
