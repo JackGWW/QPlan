@@ -2,8 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from './../router'
+
+// Load data from local files instead of backend
 import courseData from '@/allCourses.json'
 import compGradRequirements from '@/computerGradRequirements.json'
+import compCoreCourses from '@/coreCourses.json'
 
 Vue.use(Vuex)
 
@@ -466,43 +469,71 @@ export const store = new Vuex.Store({
                 },
             }
 
-            try {
-                let response = await axios.get(context.state.apiUrl + '/courses/user/core/', { withCredentials: true })
-                if (response.data.isSuccess) {
-                    const courseCodes = response.data.returned
-                    //Add to completed
-                    for (const level of yearLocation[studentYear]["completed"]) {
-                        for (const code of courseCodes[level]) {
-                            const course = context.getters.findCourseByCode(code)
-                            context.dispatch("updateCourseStatus", [course, "completed"])
-                        }
-                    }
 
-                    //Add to inProgress
-                    for (const level of yearLocation[studentYear]["inProgress"]) {
-                        for (const code of courseCodes[level]) {
-                            const course = context.getters.findCourseByCode(code)
-                            context.dispatch("updateCourseStatus", [course, "inProgress"])
-                        }
-                    }
-
-                    //Add to saved
-                    for (const level of yearLocation[studentYear]["saved"]) {
-                        for (const code of courseCodes[level]) {
-                            const course = context.getters.findCourseByCode(code)
-                            context.dispatch("updateCourseStatus", [course, "saved"])
-                        }
-                    }
-                }
-                else {
-                    console.log(response)
-                    context.commit('displayGlobalError', "Connection Error: Can't preload core courses.")
+            const courseCodes = compCoreCourses
+            //Add to completed
+            for (const level of yearLocation[studentYear]["completed"]) {
+                for (const code of courseCodes[level]) {
+                    const course = context.getters.findCourseByCode(code)
+                    context.dispatch("updateCourseStatus", [course, "completed"])
                 }
             }
-            catch (e) {
-                console.log(e)
-                context.commit('displayGlobalError', "Connection Error: Can't preload core courses.")
+
+            //Add to inProgress
+            for (const level of yearLocation[studentYear]["inProgress"]) {
+                for (const code of courseCodes[level]) {
+                    const course = context.getters.findCourseByCode(code)
+                    context.dispatch("updateCourseStatus", [course, "inProgress"])
+                }
             }
+
+            //Add to saved
+            for (const level of yearLocation[studentYear]["saved"]) {
+                for (const code of courseCodes[level]) {
+                    const course = context.getters.findCourseByCode(code)
+                    context.dispatch("updateCourseStatus", [course, "saved"])
+                }
+            }
+
+
+
+            // try {
+            //     let response = await axios.get(context.state.apiUrl + '/courses/user/core/', { withCredentials: true })
+            //     if (response.data.isSuccess) {
+            //         const courseCodes = response.data.returned
+            //         //Add to completed
+            //         for (const level of yearLocation[studentYear]["completed"]) {
+            //             for (const code of courseCodes[level]) {
+            //                 const course = context.getters.findCourseByCode(code)
+            //                 context.dispatch("updateCourseStatus", [course, "completed"])
+            //             }
+            //         }
+
+            //         //Add to inProgress
+            //         for (const level of yearLocation[studentYear]["inProgress"]) {
+            //             for (const code of courseCodes[level]) {
+            //                 const course = context.getters.findCourseByCode(code)
+            //                 context.dispatch("updateCourseStatus", [course, "inProgress"])
+            //             }
+            //         }
+
+            //         //Add to saved
+            //         for (const level of yearLocation[studentYear]["saved"]) {
+            //             for (const code of courseCodes[level]) {
+            //                 const course = context.getters.findCourseByCode(code)
+            //                 context.dispatch("updateCourseStatus", [course, "saved"])
+            //             }
+            //         }
+            //     }
+            //     else {
+            //         console.log(response)
+            //         context.commit('displayGlobalError', "Connection Error: Can't preload core courses.")
+            //     }
+            // }
+            // catch (e) {
+            //     console.log(e)
+            //     context.commit('displayGlobalError', "Connection Error: Can't preload core courses.")
+            // }
         },
         fetchCourses: async function (context) {
             context.commit('updateCourses', courseData)

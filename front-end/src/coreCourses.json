@@ -1,0 +1,44 @@
+{
+    "100": [
+        "APSC 100",
+        "APSC 111",
+        "APSC 112",
+        "APSC 131",
+        "APSC 132",
+        "APSC 142",
+        "APSC 151",
+        "APSC 161",
+        "APSC 171",
+        "APSC 172",
+        "APSC 174"
+    ],
+    "200": [
+        "ELEC 221",
+        "ELEC 252",
+        "ELEC 270",
+        "ELEC 271",
+        "ELEC 274",
+        "ELEC 278",
+        "ELEC 280",
+        "ELEC 299",
+        "ELEC 279",
+        "MTHE 235",
+        "APSC 200",
+        "APSC 293",
+        "APSC 221",
+        "CMPE 223"
+    ],
+    "300": [
+        "CMPE 365",
+        "ELEC 326",
+        "ELEC 371",
+        "ELEC 373",
+        "ELEC 374",
+        "ELEC 377",
+        "ELEC 390",
+        "CMPE 320"
+    ],
+    "400": [
+        "ELEC 498"
+    ]
+}
