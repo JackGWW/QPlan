@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
 import router from './../router'
 
 // Load data from local files instead of backend
@@ -407,17 +407,20 @@ export const store = new Vuex.Store({
             context.dispatch('updateCourseStatus', [course, course.status])
 
         },
+        // eslint-disable-next-line no-unused-vars
         checkSession: async function (context) {
-            try {
-                let response = await axios.get(context.state.apiUrl + "/user", { withCredentials: true })
-                if (response.data.isSuccess) {
-                    console.log(window.location.href)
-                    context.dispatch("startApp", response.data.returned)
-                }
-            }
-            catch (e) {
-                console.log("No existing session: " + String(e))
-            }
+            console.log("No existing session")
+            
+            // try {
+            //     let response = await axios.get(context.state.apiUrl + "/user", { withCredentials: true })
+            //     if (response.data.isSuccess) {
+            //         console.log(window.location.href)
+            //         context.dispatch("startApp", response.data.returned)
+            //     }
+            // }
+            // catch (e) {
+            //     console.log("No existing session: " + String(e))
+            // }
         },
         startApp(context, userInfo) {
             context.commit("toggleAuthenticated");
