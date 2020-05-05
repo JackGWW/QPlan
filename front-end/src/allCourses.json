@@ -100,7 +100,9 @@
         "notes": "NOTE: This course covers the content and objectives of APSC 100 Module 1, and is available by permission only. (6/0/12/18/12)",
         "prerequisites": {
             "text": "Permission of the instructor or Associate Dean (Academic)",
-            "permission": true
+            "other": [
+                "Permission of the instructor or Associate Dean (Academic)"
+            ]
         },
         "corequisites": "",
         "exclusions": {
