@@ -357,6 +357,7 @@ export const store = new Vuex.Store({
             }
 
             //TODO Update URL to include chosen section (instead of always 1)
+            // eslint-disable-next-line no-unused-vars
             var requestUrl
             if (courseStatus === '' && (!course.chosenSemester || course.chosenSemester === course.semester)) { //Setting status to '' is considered removing the course, unless there is chosen semester data
                 requestUrl = context.state.apiUrl.concat('/courses/user/remove/', course.prefix, '/', course.code, '/', course.year, '/1/')
@@ -365,22 +366,25 @@ export const store = new Vuex.Store({
                 requestUrl = context.state.apiUrl.concat('/courses/user/set/', course.prefix, '/', course.code, '/', course.year, '/1/', semester, '/', courseStatus)
             }
 
-            try {
-                let response = await axios.post(requestUrl, {}, { withCredentials: true })
 
-                if (response.status === 200) {
-                    course.status = courseStatus
-                }
-                else {
-                    console.log(response)
-                    context.commit('displayGlobalError', "Connection Error: Can't update.")
-                }
-            }
-            catch (e) {
-                console.log(e)
-                context.commit('displayGlobalError', "Connection Error: Can't update.")
+            course.status = courseStatus
 
-            }
+            // try {
+            //     let response = await axios.post(requestUrl, {}, { withCredentials: true })
+
+            //     if (response.status === 200) {
+            //         course.status = courseStatus
+            //     }
+            //     else {
+            //         console.log(response)
+            //         context.commit('displayGlobalError', "Connection Error: Can't update.")
+            //     }
+            // }
+            // catch (e) {
+            //     console.log(e)
+            //     context.commit('displayGlobalError', "Connection Error: Can't update.")
+
+            // }
         },
         toggleStatus(context, payload) {
             const course = payload[0]
@@ -434,7 +438,6 @@ export const store = new Vuex.Store({
             const date = new Date()
             const curYear = date.getFullYear()
             const curMonth = date.getMonth()
-
             // Student year = 1st year, 2nd year...
             let studentYear = curYear - startYear + (curMonth > 2 ? 1 : 0) // If april on onwards, count as planning for the next year
 
@@ -469,7 +472,7 @@ export const store = new Vuex.Store({
                 },
             }
 
-
+            
             const courseCodes = compCoreCourses
             //Add to completed
             for (const level of yearLocation[studentYear]["completed"]) {
