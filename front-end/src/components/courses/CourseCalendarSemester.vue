@@ -73,8 +73,8 @@ export default {
       function offsetTimeZone(dateString){
         // Keep time shows constant no matter what timezone it's viewed in
         let date = moment(dateString, "YYYY-MM-DD HH:mm:ss")
-        const minOffset = new Date().getTimezoneOffset()
-        date.add(minOffset, 'm')
+        // const minOffset = new Date().getTimezoneOffset()
+        // date.add(minOffset, 'm')
         return date.format("YYYY-MM-D HH:mm")
       }
 
