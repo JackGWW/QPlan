@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from './../router'
+import courseData from '@/allCourses.json'
+import compGradRequirements from '@/computerGradRequirements.json'
 
 Vue.use(Vuex)
 
@@ -346,7 +348,7 @@ export const store = new Vuex.Store({
             }
 
             // For courses that are preloaded upon first login
-            if (semester.includes('/')){
+            if (semester.includes('/')) {
                 semester = semester.split('/')[0]
                 course.chosenSemester = semester
             }
@@ -480,14 +482,16 @@ export const store = new Vuex.Store({
                     for (const level of yearLocation[studentYear]["inProgress"]) {
                         for (const code of courseCodes[level]) {
                             const course = context.getters.findCourseByCode(code)
-                            context.dispatch("updateCourseStatus", [course, "inProgress"])                        }
+                            context.dispatch("updateCourseStatus", [course, "inProgress"])
+                        }
                     }
 
                     //Add to saved
                     for (const level of yearLocation[studentYear]["saved"]) {
                         for (const code of courseCodes[level]) {
                             const course = context.getters.findCourseByCode(code)
-                            context.dispatch("updateCourseStatus", [course, "saved"])                        }
+                            context.dispatch("updateCourseStatus", [course, "saved"])
+                        }
                     }
                 }
                 else {
@@ -501,44 +505,51 @@ export const store = new Vuex.Store({
             }
         },
         fetchCourses: async function (context) {
-            try {
-                let response = await axios.get(context.state.apiUrl + '/courses/', { withCredentials: true })
-                if (response.status === 200) {
-                    context.commit('updateCourses', response.data.returned)
-                    
-                //If first time loading courses, also set the core courses status
-                if (context.state.firstLogin) {
-                    context.dispatch("loadCoreCourses", context.state.userStartYear)
-                }
+            context.commit('updateCourses', courseData)
+            context.dispatch("loadCoreCourses", context.state.userStartYear)
 
-                }
-                else {
-                    console.log(response)
-                    context.commit('displayGlobalError', "Connection Error: Can't load courses.")
-                }
-            }
-            catch (e) {
-                console.log(e)
-                context.commit('displayGlobalError', "Connection Error: Can't load courses.")
-            }
+            // try {
+            //     let response = await axios.get(context.state.apiUrl + '/courses/', { withCredentials: true })
+            //     if (response.status === 200) {
+            //         context.commit('updateCourses', response.data.returned)
+
+            //     //If first time loading courses, also set the core courses status
+            //     if (context.state.firstLogin) {
+            //         context.dispatch("loadCoreCourses", context.state.userStartYear)
+            //     }
+
+            //     }
+            //     else {
+            //         console.log(response)
+            //         context.commit('displayGlobalError', "Connection Error: Can't load courses.")
+            //     }
+            // }
+            // catch (e) {
+            //     console.log(e)
+            //     context.commit('displayGlobalError', "Connection Error: Can't load courses.")
+            // }
         },
-        fetchGraduationRequirements: async function(context, discipline) {
-            try{
-                let response = await axios.get(context.state.apiUrl + "/grad_requirements/engineering/" + discipline, { withCredentials: true })
-                if (response.data.isSuccess){
-                    context.commit("updateGraduationRequirements", response.data.returned)
-                }
-                else{
-                    console.log(response)
-                    context.commit('displayGlobalError', "Connection Error: Can't load grad requirements.")    
-                }
-            }
-            catch(e){
-                console.log(e)
-                context.commit('displayGlobalError', "Connection Error: Can't load grad requirements.")
-            }
+        
+        // eslint-disable-next-line no-unused-vars
+        fetchGraduationRequirements: async function (context, discipline) {
+            context.commit("updateGraduationRequirements", compGradRequirements)
+
+            // try{
+            //     let response = await axios.get(context.state.apiUrl + "/grad_requirements/engineering/" + discipline, { withCredentials: true })
+            //     if (response.data.isSuccess){
+            //         context.commit("updateGraduationRequirements", response.data.returned)
+            //     }
+            //     else{
+            //         console.log(response)
+            //         context.commit('displayGlobalError', "Connection Error: Can't load grad requirements.")    
+            //     }
+            // }
+            // catch(e){
+            //     console.log(e)
+            //     context.commit('displayGlobalError', "Connection Error: Can't load grad requirements.")
+            // }
         },
-        reloadDesciplineInfo: async function(context){
+        reloadDesciplineInfo: async function (context) {
             console.log(context.state.discipline)
             console.log(context.state.startYear)
             // Credit requirements?
