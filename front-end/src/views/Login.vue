@@ -161,9 +161,9 @@ export default {
       const fakeResponse = {
         firstName: "John",
         lastName: "Smith",
-        userEmail: this.email,
-        userDiscipline: "computer",
-        userStartYear: "2019"
+        email: this.email,
+        discipline: "computer",
+        startYear: 2019
       };
 
       this.$store.dispatch("startApp", fakeResponse);
