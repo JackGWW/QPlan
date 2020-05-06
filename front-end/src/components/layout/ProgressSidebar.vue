@@ -9,6 +9,7 @@
       mobile-break-point="960"
       v-model="progressSidebar"
       v-if="authenticated"
+      :permanent="tourActive"
     >
       <div>
         <div class="headline mb-2">
@@ -182,6 +183,13 @@ export default {
   computed: {
     ...mapGetters(["graduationRequirements"]),
     ...mapState(["authenticated"]),
+    tourActive: function() {
+      return (
+        this.$tours["introTour"].isRunning &&
+        this.$tours["introTour"].currentStep >= 8 &&
+        this.$tours["introTour"].currentStep <= 10
+      );
+    },
     progressSidebar: {
       get() {
         return this.$store.getters.showProgressSidebar;
@@ -192,16 +200,16 @@ export default {
     }
   },
   methods: {
-    progressTour: function(){
+    progressTour: function() {
       if (
         this.$tours["introTour"].isRunning &&
         this.$tours["introTour"].currentStep == 10
       ) {
-      if(this.$route.name !== "progress"){
+        if (this.$route.name !== "progress") {
           window.setTimeout(this.progressTour, 50);
         }
-      // Then progress tour
-      else{
+        // Then progress tour
+        else {
           this.$tours["introTour"].nextStep();
         }
       }

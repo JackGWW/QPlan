@@ -266,7 +266,7 @@ export default {
       // Don't progress past the course card until it is closed
       if (currentStep == 7 && this.isVisible(".v-step-3")) {
         this.$tours["introTour"].previousStep();
-        return
+        return;
       }
 
       if (!this.isVisible(target)) {
