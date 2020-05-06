@@ -1,12 +1,12 @@
 <template>
-  <div class="v-step-1 v-step-18">
+  <div>
     <v-expansion-panels multiple v-model="panel">
       <v-expansion-panel>
         <v-expansion-panel-header class="headline">Completed</v-expansion-panel-header>
         <CourseList :courses="coursesCompleted" />
       </v-expansion-panel>
       <CourseListsHome
-        class="v-step-1"
+        class="v-step-1 v-step-18"
         list="Taking this Year"
         :fall="coursesSemesterStatus('Fall', 'inProgress')"
         :winter="coursesSemesterStatus('Winter', 'inProgress')"

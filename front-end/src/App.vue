@@ -53,7 +53,8 @@ export default {
           content:
             "<div class='text-justify'>Here's an overview of your current plan:<ul><li>Courses you've completed</li> <li>Courses you're taking this year </li> <li>Courses saved for future years</li></ul></div>",
           params: {
-            placement: "right"
+            placement: "right",
+            highlight: false
           }
         },
         {
@@ -102,6 +103,9 @@ export default {
         },
         {
           target: ".v-step-8",
+          header: {
+            title: "Progress Sidebar"
+          },
           content:
             "Here you can see your progress towards all your graduation requirements",
           params: {
@@ -119,7 +123,8 @@ export default {
         },
         {
           target: ".v-step-10",
-          content: "Click here to go to the Detailed Progress page",
+          content:
+            "Click on the 'DETAILED PROGRESS' button to go to the Progress page",
           params: {
             placement: "top",
             highlight: false
@@ -238,7 +243,7 @@ export default {
       const target = ".v-step-" + String(currentStep - 1);
 
       // Scroll to top of search page when showing course status buttons
-      if (currentStep == 17) {
+      if (currentStep == 17 || currentStep == 15) {
         setTimeout(function() {
           window.scrollTo(0, 0);
         }, 50);
@@ -252,10 +257,16 @@ export default {
       const target = ".v-step-" + String(currentStep + 1);
 
       // Scroll to top of search page when showing course status buttons
-      if (currentStep == 15) {
+      if (currentStep == 15 || currentStep == 13) {
         setTimeout(function() {
           window.scrollTo(0, 0);
         }, 50);
+      }
+
+      // Don't progress past the course card until it is closed
+      if (currentStep == 7 && this.isVisible(".v-step-3")) {
+        this.$tours["introTour"].previousStep();
+        return
       }
 
       if (!this.isVisible(target)) {

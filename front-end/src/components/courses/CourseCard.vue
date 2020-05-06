@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-dialog width="1000" :persistent="cardTourActive" v-model="courseDialog">
+    <v-dialog
+      width="1000"
+      :persistent="cardTourActive"
+      :disabled="courseDialogDisabled"
+      v-model="courseDialog"
+    >
       <template v-slot:activator="{ on } ">
         <!-- Code for the regular narrow course card -->
         <v-card
@@ -18,72 +23,72 @@
             </v-toolbar-title>
             <v-spacer />
 
-              <!-- Completed button -->
-              <v-tooltip bottom nudge-bottom="-6" open-delay="500">
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    small
-                    v-on:click="undoRemove(course, 'completed'); toggleStatus(course, 'completed');"
-                    v-on:click.stop
-                    v-on="on"
-                    id="completed-tool"
-                    :class="detailed === true ? 'v-step-16' : ''"
-                  >
-                    <div v-if="course.status == 'completed'">
-                      <v-icon>mdi-check-circle</v-icon>
-                    </div>
-                    <div v-else>
-                      <v-icon>mdi-check-circle-outline</v-icon>
-                    </div>
-                  </v-btn>
-                </template>
-                <span>Completed</span>
-              </v-tooltip>
+            <!-- Completed button -->
+            <v-tooltip bottom nudge-bottom="-6" open-delay="500">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  small
+                  v-on:click="undoRemove(course, 'completed'); toggleStatus(course, 'completed');"
+                  v-on:click.stop
+                  v-on="on"
+                  id="completed-tool"
+                  :class="detailed === true ? 'v-step-16' : ''"
+                >
+                  <div v-if="course.status == 'completed'">
+                    <v-icon>mdi-check-circle</v-icon>
+                  </div>
+                  <div v-else>
+                    <v-icon>mdi-check-circle-outline</v-icon>
+                  </div>
+                </v-btn>
+              </template>
+              <span>Completed</span>
+            </v-tooltip>
 
-              <!-- In Progress Button -->
-              <v-tooltip bottom nudge-bottom="-6" open-delay="500">
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    small
-                    v-on:click="undoRemove(course, 'inProgress'); toggleStatus(course, 'inProgress');"
-                    v-on:click.stop
-                    v-on="on"
-                    id="in-progress-tool"
-                  >
-                    <div v-if="course.status == 'inProgress'">
-                      <v-icon>mdi-timer-sand-full</v-icon>
-                    </div>
-                    <div v-else>
-                      <v-icon>mdi-timer-sand-empty</v-icon>
-                    </div>
-                  </v-btn>
-                </template>
-                <span>Take this Year</span>
-              </v-tooltip>
+            <!-- In Progress Button -->
+            <v-tooltip bottom nudge-bottom="-6" open-delay="500">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  small
+                  v-on:click="undoRemove(course, 'inProgress'); toggleStatus(course, 'inProgress');"
+                  v-on:click.stop
+                  v-on="on"
+                  id="in-progress-tool"
+                >
+                  <div v-if="course.status == 'inProgress'">
+                    <v-icon>mdi-timer-sand-full</v-icon>
+                  </div>
+                  <div v-else>
+                    <v-icon>mdi-timer-sand-empty</v-icon>
+                  </div>
+                </v-btn>
+              </template>
+              <span>Take this Year</span>
+            </v-tooltip>
 
-              <!-- Saved Button -->
-              <v-tooltip bottom nudge-bottom="-6" open-delay="500">
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    small
-                    v-on:click="undoRemove(course, 'saved'); toggleStatus(course, 'saved');"
-                    v-on:click.stop
-                    v-on="on"
-                    id="saved-for-later-tool"
-                  >
-                    <div v-if="course.status == 'saved'">
-                      <v-icon>mdi-bookmark</v-icon>
-                    </div>
-                    <div v-else>
-                      <v-icon>mdi-bookmark-outline</v-icon>
-                    </div>
-                  </v-btn>
-                </template>
-                <span>Take in Future</span>
-              </v-tooltip>
+            <!-- Saved Button -->
+            <v-tooltip bottom nudge-bottom="-6" open-delay="500">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  small
+                  v-on:click="undoRemove(course, 'saved'); toggleStatus(course, 'saved');"
+                  v-on:click.stop
+                  v-on="on"
+                  id="saved-for-later-tool"
+                >
+                  <div v-if="course.status == 'saved'">
+                    <v-icon>mdi-bookmark</v-icon>
+                  </div>
+                  <div v-else>
+                    <v-icon>mdi-bookmark-outline</v-icon>
+                  </div>
+                </v-btn>
+              </template>
+              <span>Take in Future</span>
+            </v-tooltip>
 
             <!-- Subheading with credit, class and AUs details -->
             <template v-if="detailed" #extension>
@@ -286,7 +291,7 @@ export default {
   },
   methods: {
     toggleStatus: function(course, status) {
-      if (this.cardTourActive) return //Changing status breaks the tour
+      if (this.cardTourActive) return; //Changing status breaks the tour
       if (
         this.semesterOptions.length > 1 &&
         this.selectedSemester === undefined &&
@@ -338,20 +343,35 @@ export default {
     }
   },
   watch: {
-    courseDialog: function(value) {
+    courseDialog: async function(value) {
       if (
         value === false &&
         this.$tours["introTour"].isRunning &&
         this.$tours["introTour"].currentStep === 7
       ) {
-        this.$tours["introTour"].nextStep();
+        while (this.$tours["introTour"].currentStep === 7) {
+          await new Promise(r => setTimeout(r, 50)); //Sleep for long enough for the course card to finish closing
+          this.$tours["introTour"].nextStep();
+        }
       }
+    },
+    $tours: function(value) {
+      console.log(value);
+      console.log(value["introTour"].currentStep);
     }
   },
   computed: {
+    courseDialogDisabled() {
+      return (
+        this.$tours["introTour"].isRunning &&
+        (this.$tours["introTour"].currentStep < 2 ||
+          this.$tours["introTour"].currentStep > 6)
+      );
+    },
     cardTourActive() {
       return (
         this.$tours["introTour"].isRunning &&
+        this.$tours["introTour"].currentStep > 2 &&
         this.$tours["introTour"].currentStep < 7
       );
     },

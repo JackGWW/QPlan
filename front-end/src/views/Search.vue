@@ -177,13 +177,13 @@
     </div>
 
     <!-- Course card results -->
-    <v-container class="v-step-14" style="margin-top: 160px;">
+    <v-container  style="margin-top: 160px;">
       <CourseCard
         v-for="course in paginatedCourses"
         :key="course.id"
         detailed
         v-on:setCompleted="courseSetCompleted"
-        class="mt-1 mb-3 mx-3 elevation-1"
+        class="mt-1 mb-3 mx-3 elevation-1 v-step-14"
         :course="course"
       />
     </v-container>
